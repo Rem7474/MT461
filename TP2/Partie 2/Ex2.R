@@ -4,8 +4,8 @@
 # ============================================================================
 # CONFIGURATION: Dossier de sortie des images
 # ============================================================================
-output_dir <- "./4APP/s7/MT461/TP/TP2/Part 2/output"
-dir.create(output_dir, showWarnings = FALSE)
+output_dir <- "TP2/Partie 2/output"
+dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
 cat("Les images seront sauvegardées dans:", file.path(getwd(), output_dir), "\n\n")
 
 # ============================================================================
@@ -159,11 +159,11 @@ plot(h_vals, rho, type = "l", col = "blue", lwd = 2.5,
      main = "Région de stabilité - Euler explicite (λ = -0.5)",
      xlab = "Pas h", ylab = "Facteur d'amplification |1 + h*λ|", 
      ylim = c(-2, 2))
-abline(h = 1, col = "green", lwd = 2, lty = 2, label = "Limite de stabilité")
+abline(h = 1, col = "green", lwd = 2, lty = 2)
 abline(h = -1, col = "green", lwd = 2, lty = 2)
-abline(v = 4, col = "red", lwd = 2, lty = 2, label = "h_crit = 4")
-abline(v = h1, col = "orange", lwd = 2.5, lty = 1, label = "h = 0.5 (stable)")
-abline(v = h2, col = "purple", lwd = 2.5, lty = 1, label = "h = 5 (instable)")
+abline(v = 4, col = "red", lwd = 2, lty = 2)
+abline(v = h1, col = "orange", lwd = 2.5, lty = 1)
+abline(v = h2, col = "purple", lwd = 2.5, lty = 1)
 
 # Zone stable
 polygon(c(0, 4, 4, 0), c(-1, -1, 1, 1), col = rgb(0, 1, 0, 0.2), border = NA)
@@ -306,7 +306,7 @@ cat(sprintf("Ordre des trapèzes:           %.3f (théorique: 2)\n", order_trap)
 
 # Graphique 7: Convergence
 png(file.path(output_dir, "Ex2_Ordres_convergence.png"), width = 900, height = 600)
-plot(h_values, errors_euler, type = "bo", log = "xy",
+plot(h_values, errors_euler, type = "b", pch = 1, log = "xy",
      main = "Ordre de convergence des trois méthodes",
      xlab = "Pas h", ylab = "Erreur globale max",
      lwd = 2, cex = 1.2, col = "red", ylim = c(1e-8, 1e-1))
