@@ -348,4 +348,4 @@ cat("3. RECOMMANDATIONS:\n")
 cat("   - Pour les équations raides (λ très négatif): préférer implicite ou trapèzes\n")
 cat("   - Les trapèzes offrent le meilleur compromis (ordre 2 + stabilité)\n\n")
 
-cat("\n✓ Tous les graphiques ont été générés.\n")
+cat("\n Tous les graphiques ont été générés.\n")
