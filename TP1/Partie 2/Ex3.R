@@ -1,6 +1,9 @@
 # Exercice 3
 
-
+output_dir <- "TP1/Partie 2/output"
+if(!dir.exists(output_dir)) {
+  dir.create(output_dir, recursive = TRUE)
+}
 
 # ============================================================================
 # Point fixe et méthode de Newton pour résoudre cos(x) = x
@@ -57,12 +60,14 @@ point_fixe_convergence <- function(x0, max_iter = 30) {
 result_pf <- point_fixe_convergence(1)
 
 # Graphiques
+png(file.path(output_dir, "Q2_PointFixe.png"))
 par(mfrow=c(2,1))
 plot(1:length(result_pf$errors), log10(result_pf$errors), type="b",
      main="Erreur (échelle log) - Point fixe", xlab="Itération", ylab="log10(erreur)")
 
-plot(6:29, result_pf$ratios, type="b", 
+plot(6:30, result_pf$ratios, type="b", 
      main="Ratio d'erreurs consécutives", xlab="Itération", ylab="e_(n+1)/e_n")
+dev.off()
 
 cat("Convergence linéaire avec facteur ≈", mean(result_pf$ratios, na.rm=TRUE), "\n")
 
@@ -100,15 +105,15 @@ newton_convergence <- function(x0, max_iter = 10) {
 
 # Test Newton
 result_newton <- newton_convergence(1)
-
-# Affichage
+png(file.path(output_dir, "Q3_Newton.png"))
 par(mfrow=c(2,1))
 plot(1:length(result_newton$errors), log10(result_newton$errors), type="b",
-     main="Erreur (échelle log) - Newton", xlab="Itération", ylab="log10(erreur)")
+  main="Erreur (échelle log) - Newton", xlab="Itération", ylab="log10(erreur)")
 
-plot(3:9, result_newton$ratios_quad, type="b",
-     main="Test convergence quadratique: e_(n+1)/e_n^2", 
-     xlab="Itération", ylab="e_(n+1)/e_n^2")
+plot(3:10, result_newton$ratios_quad, type="b",
+  main="Test convergence quadratique: e_(n+1)/e_n^2", 
+  xlab="Itération", ylab="e_(n+1)/e_n^2")
+dev.off()
 
 cat("Convergence quadratique, constante ≈", mean(result_newton$ratios_quad, na.rm=TRUE), "\n")
 
@@ -128,8 +133,7 @@ point_fixe_10cos <- function(x0, max_iter = 20) {
   
   return(x)
 }
-
-# Test avec différents x0
+png(file.path(output_dir, "Q4_10cos.png"))
 x0_values <- c(0, 1, 2, 5)
 par(mfrow=c(2,2))
 
@@ -138,6 +142,7 @@ for(x0 in x0_values) {
   plot(0:20, result, type="b", 
        main=paste("x0 =", x0), xlab="Itération", ylab="x_n")
 }
+dev.off()
 
 cat("Comportement observé: divergence ou oscillation selon x0\n")
 cat("Cause: |f'(x)| = 10|sin(x)| peut être > 1, pas de contraction\n")
@@ -170,15 +175,13 @@ for(i in 2:20) {
   x_pf[i] <- cos(x_pf[i-1])
 }
 
-x_aitken <- aitken_acceleration(x_pf)
-x_star <- 0.7390851332151607
-
-# Comparaison
+png(file.path(output_dir, "Q5_Aitken.png"))
 par(mfrow=c(1,2))
 plot(1:20, log10(abs(x_pf - x_star)), type="b", col="red",
-     main="Point fixe vs Aitken", xlab="Itération", ylab="log10(erreur)")
+  main="Point fixe vs Aitken", xlab="Itération", ylab="log10(erreur)")
 lines(1:18, log10(abs(x_aitken - x_star)), type="b", col="blue")
 legend("topright", c("Point fixe", "Aitken"), col=c("red", "blue"), lty=1)
+dev.off()
 
 # Pour x = 10*cos(x) - généralement diverge, Aitken ne peut pas aider
 cat("Aitken accélère la convergence pour cos(x)=x mais ne peut pas\n")
@@ -214,10 +217,7 @@ steffensen <- function(f, x0, max_iter = 10, tol = 1e-12) {
 f_cos <- function(x) cos(x)
 result_steff <- steffensen(f_cos, 1)
 
-x_star <- 0.7390851332151607
-errors_steff <- abs(result_steff - x_star)
-
-# Comparaison avec Newton et point fixe
+png(file.path(output_dir, "Q6_Methods_Comparison.png"))
 par(mfrow=c(1,1))
 plot(1:length(result_newton$errors), log10(result_newton$errors), 
      type="b", col="green", main="Comparaison des méthodes",
@@ -225,7 +225,8 @@ plot(1:length(result_newton$errors), log10(result_newton$errors),
 lines(1:20, log10(abs(x_pf - x_star)), type="b", col="red")
 lines(1:length(errors_steff), log10(errors_steff), type="b", col="blue")
 legend("topright", c("Newton", "Point fixe", "Steffensen"), 
-       col=c("green", "red", "blue"), lty=1)
+  col=c("green", "red", "blue"), lty=1)
+dev.off()
 
 cat("Steffensen: convergence quadratique sans calcul de dérivée\n")
 cat("Plus rapide que point fixe, comparable à Newton\n")
