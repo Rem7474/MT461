@@ -25,7 +25,9 @@ for(x0 in x0_values) {
   cat("x0 =", x0, "=> x_10 =", x, "\n")
 }
 
-# question 2
+# ============================================================================
+# Question 2
+# ============================================================================
 
 # Analyse de convergence - Point fixe
 point_fixe_convergence <- function(x0, max_iter = 30) {
@@ -66,7 +68,9 @@ cat("Convergence linéaire avec facteur ≈", mean(result_pf$ratios, na.rm=TRUE)
 
 
 
-# question 3
+# ============================================================================
+# Question 3
+# ============================================================================
 
 # Méthode de Newton
 newton_convergence <- function(x0, max_iter = 10) {
@@ -109,7 +113,10 @@ plot(3:9, result_newton$ratios_quad, type="b",
 cat("Convergence quadratique, constante ≈", mean(result_newton$ratios_quad, na.rm=TRUE), "\n")
 
 
-# question 4
+# ============================================================================
+# Question 4
+# ============================================================================
+
 # Point fixe pour x = 10*cos(x)
 point_fixe_10cos <- function(x0, max_iter = 20) {
   x <- numeric(max_iter + 1)
@@ -135,8 +142,9 @@ for(x0 in x0_values) {
 cat("Comportement observé: divergence ou oscillation selon x0\n")
 cat("Cause: |f'(x)| = 10|sin(x)| peut être > 1, pas de contraction\n")
 
-# question 5
-# Accélération d'Aitken
+# ============================================================================
+# Question 5 : Accélération d'Aitken
+# ============================================================================
 aitken_acceleration <- function(x_seq) {
   n <- length(x_seq)
   x_acc <- numeric(n-2)
@@ -176,8 +184,9 @@ legend("topright", c("Point fixe", "Aitken"), col=c("red", "blue"), lty=1)
 cat("Aitken accélère la convergence pour cos(x)=x mais ne peut pas\n")
 cat("stabiliser une suite divergente comme x=10*cos(x)\n")
 
-# question 6
-# Méthode d'Aitken-Steffensen
+# ============================================================================
+# Question 6 : Méthode d'Aitken-Steffensen
+# ============================================================================
 steffensen <- function(f, x0, max_iter = 10, tol = 1e-12) {
   x <- numeric(max_iter + 1)
   x[1] <- x0
