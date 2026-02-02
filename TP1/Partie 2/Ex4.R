@@ -64,12 +64,12 @@ legend("topright", legend = c("f1(x1, x2) = 0", "f2(x1, x2) = 0"),
 dev.off()
 
 cat("Observation graphique :\n")
-cat("- Une solution visible proche de (x₁, x₂) ≈ (0.3, 0.9)\n")
-cat("- Cette intersection servira de point de départ X₀ pour Newton-Raphson\n\n")
+cat("- Une solution visible proche de (x1, x2) ~ (0.3, 0.9)\n")
+cat("- Cette intersection servira de point de départ X0 pour Newton-Raphson\n\n")
 
 # Point initial choisi d'après le graphique
 x0_guess <- c(0.5, 1.0)
-cat(sprintf("Point initial choisi : X₀ = (%.1f, %.1f)\n\n", x0_guess[1], x0_guess[2]))
+cat(sprintf("Point initial choisi : X0 = (%.1f, %.1f)\n\n", x0_guess[1], x0_guess[2]))
 
 # ============================================================================
 # QUESTION ii : Algorithme de Newton-Raphson multi-dimensionnel
@@ -111,7 +111,7 @@ newton_raphson_systeme <- function(x0, tol = 1e-14, max_iter = 20) {
     if (err < tol) {
       errors <- errors[1:k]
       iterations <- iterations[1:(k + 1)]
-      cat("\n✓ Convergence atteinte après", k, "itérations\n")
+      cat("\n>> Convergence atteinte apres", k, "iterations\n")
       break
     }
     
@@ -125,10 +125,10 @@ newton_raphson_systeme <- function(x0, tol = 1e-14, max_iter = 20) {
 resultat <- newton_raphson_systeme(x0_guess)
 
 cat("\n--- SOLUTION FINALE ---\n")
-cat(sprintf("x₁ = %.15f\n", resultat$solution[1]))
-cat(sprintf("x₂ = %.15f\n", resultat$solution[2]))
+cat(sprintf("x1 = %.15f\n", resultat$solution[1]))
+cat(sprintf("x2 = %.15f\n", resultat$solution[2]))
 
-# Vérification : évaluation de F à la solution
+# Verification : evaluation de F a la solution
 F_final <- systeme_equations(resultat$solution)
 cat(sprintf("\nVérification : ||F(x*)|| = %.4e\n", sqrt(sum(F_final^2))))
 
@@ -145,12 +145,12 @@ if (n > 2) {
   log_err_curr <- log10(err[1:(n - 1)])
   log_err_next <- log10(err[2:n])
   
-  # Estimation de la pente par régression linéaire
+  # Estimation de la pente par regression lineaire
   if (length(log_err_curr) > 1) {
     fit <- lm(log_err_next ~ log_err_curr)
     pente <- coef(fit)[2]
-    cat(sprintf("Pente estimée (ordre de convergence) : %.3f\n", pente))
-    cat("Théorique pour Newton : 2.0 (convergence quadratique)\n\n")
+    cat(sprintf("Pente estimee (ordre de convergence) : %.3f\n", pente))
+    cat("Theorique pour Newton : 2.0 (convergence quadratique)\n\n")
   }
   
   # Graphique log-log
@@ -189,8 +189,8 @@ plot(1:length(err), err, type = "b", col = "steelblue", pch = 19, lwd = 2,
 grid()
 dev.off()
 
-cat("\n✓ Ex4 terminé : figures enregistrées dans le dossier 'output'.\n")
-cat("\nInterprétation :\n")
-cat("- La convergence est très rapide (erreur divisée par ~100 à chaque itération)\n")
-cat("- Le graphique log-log montre une pente proche de 2 → convergence QUADRATIQUE\n")
-cat("- Cela signifie que le nombre de décimales exactes double à chaque itération\n")
+cat("\n>> Ex4 termine : figures enregistrees dans le dossier 'output'.\n")
+cat("\nInterpretation :\n")
+cat("- La convergence est tres rapide (erreur divisee par ~100 a chaque iteration)\n")
+cat("- Le graphique log-log montre une pente proche de 2 -> convergence QUADRATIQUE\n")
+cat("- Cela signifie que le nombre de decimales exactes double a chaque iteration\n")
