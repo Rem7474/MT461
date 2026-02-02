@@ -254,6 +254,39 @@ cat(sprintf("Ordre de Euler:       %.3f (théorique: 1)\n", order_euler))
 cat(sprintf("Ordre du point milieu: %.3f (théorique: 2)\n", order_midpoint))
 cat(sprintf("Ordre de RK4:         %.3f (théorique: 4)\n", order_rk4))
 
+# ============================================================================
+# CALCUL DE L'ORDRE RK4 SUR UN INTERVALLE RÉDUIT (petits h)
+# ============================================================================
+cat("\n--- Calcul de l'ordre RK4 sur intervalle réduit (10^-3 à 10^-2) ---\n")
+
+# Utiliser seulement les points avec 10^-3 <= h <= 10^-2
+h_values_rk4_reduced <- h_values[h_values >= 10^(-3) & h_values <= 10^(-2)]
+errors_rk4_reduced <- errors_rk4[h_values >= 10^(-3) & h_values <= 10^(-2)]
+
+fit_rk4_reduced <- lm(log(errors_rk4_reduced) ~ log(h_values_rk4_reduced))
+order_rk4_reduced <- fit_rk4_reduced$coefficients[2]
+
+cat(sprintf("Ordre de RK4 (intervalle 10^-3 à 10^-2): %.3f (théorique: 4)\n", order_rk4_reduced))
+
+# Graphique 8: RK4 seul sur intervalle réduit
+png(file.path(output_dir, "Ex1_RK4_ordre_reduit.png"), width = 800, height = 600)
+plot(h_values_rk4_reduced, errors_rk4_reduced, type = "b", pch = 3, log = "xy",
+     main = "Ordre de convergence RK4 (intervalle réduit: 10^-3 à 10^-2)",
+     xlab = "Pas h", ylab = "Erreur globale max", 
+     lwd = 2, cex = 1.2, col = "purple")
+
+# Droite de tendance
+x_line_rk4 <- range(h_values_rk4_reduced)
+y_rk4_reduced <- exp(fit_rk4_reduced$coefficients[1]) * x_line_rk4^order_rk4_reduced
+lines(x_line_rk4, y_rk4_reduced, col = "red", lwd = 2.5, lty = 2)
+
+legend("bottomright", 
+       c(sprintf("RK4 (ordre %.2f)", order_rk4_reduced),
+         "Droite de tendance"),
+       col = c("purple", "red"), lwd = 2, lty = c(1, 2), pch = c(3, NA))
+grid()
+dev.off()
+
 # Graphique 7: Convergence de tous les ordres
 png(file.path(output_dir, "Ex1_Ordres_convergence.png"), width = 800, height = 600)
 # Calculer les limites pour inclure tous les erreurs

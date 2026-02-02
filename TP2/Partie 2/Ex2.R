@@ -107,7 +107,7 @@ cat(sprintf("h = %.1f: Critère de stabilité |1 + h*lambda| = |1 + %.1f*(-0.5)|
 cat(sprintf("         %s (INSTABLE)\n", ifelse(abs(1 + h2 * lambda) < 1, "OUI", "NON")))
 
 # Graphique 1: Euler h = 0.5 vs solution exacte
-png(file.path(output_dir, "Ex2_Euler_h05_stable.png"), width = 900, height = 600)
+png(file.path(output_dir, "Ex2_1_Euler_h05_stable.png"), width = 900, height = 600)
 plot(sol_euler_h05$x, sol_euler_h05$y, type = "b", col = "red", 
      main = "Euler explicite: h = 0.5 (stable)",
      xlab = "x", ylab = "y", lwd = 2, pch = 16, cex = 0.8)
@@ -118,7 +118,7 @@ grid()
 dev.off()
 
 # Graphique 2: Euler h = 5 vs solution exacte (montre l'instabilité)
-png(file.path(output_dir, "Ex2_Euler_h5_instable.png"), width = 900, height = 600)
+png(file.path(output_dir, "Ex2_1_Euler_h5_instable.png"), width = 900, height = 600)
 # Limitation pour la visualisation
 ylim_val <- min(max(sol_euler_h5$y[1:50], na.rm = TRUE), 1e6)
 plot(sol_euler_h5$x, sol_euler_h5$y, type = "b", col = "red", 
@@ -152,7 +152,7 @@ cat("  - Borne inférieure: 1 + h*lambda > -1  ⟹  h*lambda > -2  ⟹  h < -2/l
 cat(sprintf("  - Ici lambda = %.1f, donc h_max = 2/|lambda| = %.1f\n", lambda, 2/abs(lambda)))
 
 # Graphique 3: Région de stabilité
-png(file.path(output_dir, "Ex2_Stabilite_Euler.png"), width = 900, height = 600)
+png(file.path(output_dir, "Ex2_2_Stabilite_Euler.png"), width = 900, height = 600)
 h_vals <- seq(0.01, 10, by = 0.01)
 rho <- 1 + h_vals * lambda
 plot(h_vals, rho, type = "l", col = "blue", lwd = 2.5,
@@ -190,7 +190,7 @@ cat(sprintf("h = %.1f: Facteur d'amplification = 1/(1 - %.1f*(-0.5)) = 1/%.2f = 
             h2, h2, 1 - h2 * lambda, 1/(1 - h2 * lambda)))
 
 # Graphique 4: Comparaison Euler explicite vs implicite (h=5)
-png(file.path(output_dir, "Ex2_Euler_Explicit_vs_Implicit_h5.png"), width = 900, height = 600)
+png(file.path(output_dir, "Ex2_3_Euler_Explicit_vs_Implicit_h5.png"), width = 900, height = 600)
 plot(sol_euler_h5$x, sol_euler_h5$y, type = "l", col = "red", 
      main = "Comparaison: Euler explicite vs implicite (h = 5, instable/stable)",
      xlab = "x", ylab = "y", lwd = 2, lty = 1,
@@ -217,7 +217,7 @@ cat(sprintf("h = %.1f: Facteur = (1 + %.2f)/(1 - %.2f) = %.4f\n",
             h2, h2 * lambda / 2, h2 * lambda / 2, (1 + h2 * lambda / 2)/(1 - h2 * lambda / 2)))
 
 # Graphique 5: Comparaison des trois méthodes (h=5)
-png(file.path(output_dir, "Ex2_Comparaison_methodes_h5.png"), width = 900, height = 600)
+png(file.path(output_dir, "Ex2_4_Comparaison_methodes_h5.png"), width = 900, height = 600)
 plot(sol_euler_h5$x, sol_euler_h5$y, type = "l", col = "red", 
      main = "Comparaison des trois méthodes (h = 5)",
      xlab = "x", ylab = "y", lwd = 2, lty = 1,
@@ -231,7 +231,7 @@ grid()
 dev.off()
 
 # Graphique 6: Comparaison (h=0.5) - toutes les méthodes convergent
-png(file.path(output_dir, "Ex2_Comparaison_methodes_h05.png"), width = 900, height = 600)
+png(file.path(output_dir, "Ex2_4_Comparaison_methodes_h05.png"), width = 900, height = 600)
 sol_euler_h05 <- euler_explicite(lambda, x0, xf, y0, h1)
 sol_implicit_h05 <- euler_implicite(lambda, x0, xf, y0, h1)
 sol_trap_h05 <- trapeze(lambda, x0, xf, y0, h1)
@@ -305,7 +305,7 @@ cat(sprintf("Ordre d'Euler implicite:      %.3f (théorique: 1)\n", order_implic
 cat(sprintf("Ordre des trapèzes:           %.3f (théorique: 2)\n", order_trap))
 
 # Graphique 7: Convergence
-png(file.path(output_dir, "Ex2_Ordres_convergence.png"), width = 900, height = 600)
+png(file.path(output_dir, "Ex2_5_Ordres_convergence.png"), width = 900, height = 600)
 plot(h_values, errors_euler, type = "b", pch = 1, log = "xy",
      main = "Ordre de convergence des trois méthodes",
      xlab = "Pas h", ylab = "Erreur globale max",

@@ -6,7 +6,7 @@
 # ============================================================================
 # CONFIGURATION: Dossier de sortie des images
 # ============================================================================
-output_dir <- "./4APP/s7/MT461/TP/TP2/Part 2/output"
+output_dir <- "TP2/Partie 2/output"
 dir.create(output_dir, showWarnings = FALSE)
 cat("Les images seront sauvegardées dans:", file.path(getwd(), output_dir), "\n\n")
 
@@ -125,8 +125,14 @@ for (i in seq_along(p0_values)) {
 q_grid <- seq(-pi, pi, length.out = 1000)
 lines(q_grid,  2 * cos(q_grid / 2), col = "black", lwd = 2, lty = 2)
 lines(q_grid, -2 * cos(q_grid / 2), col = "black", lwd = 2, lty = 2)
-legend("topright", c("Trajectoires p0∈[0,3]", "Séparatrice E=2"),
-       col = c("gray40", "black"), lwd = c(2, 2), lty = c(1, 2), bty = "n")
+
+# Légende avec les valeurs de p0
+legend_labels <- c(paste0("p0=", p0_values), "Séparatrice E=2")
+legend_cols <- c(cols, "black")
+legend_lwd <- c(rep(1.8, length(p0_values)), 2)
+legend_lty <- c(rep(1, length(p0_values)), 2)
+legend("topright", legend_labels, col = legend_cols, lwd = legend_lwd, 
+       lty = legend_lty, bty = "n", cex = 0.8)
 dev.off()
 
 # Résumé console
