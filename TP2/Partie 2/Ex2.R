@@ -306,14 +306,19 @@ plot(h_values, errors_euler, type = "b", pch = 1, log = "xy",
 points(h_values, errors_implicit, type = "b", col = "green", lwd = 2, cex = 1.2, pch = 2)
 points(h_values, errors_trap, type = "b", col = "purple", lwd = 2, cex = 1.2, pch = 3)
 
-# Droites de tendance
+# Droites de tendance (limiter au domaine des données)
 x_line <- range(h_values)
-y_euler <- exp(fit_euler$coefficients[1]) * x_line^(-order_euler)
-y_implicit <- exp(fit_implicit$coefficients[1]) * x_line^(-order_implicit)
-y_trap <- exp(fit_trap$coefficients[1]) * x_line^(-order_trap)
-lines(x_line, y_euler, col = "red", lwd = 2, lty = 2)
-lines(x_line, y_implicit, col = "green", lwd = 2, lty = 2)
-lines(x_line, y_trap, col = "purple", lwd = 2, lty = 2)
+y_euler <- exp(fit_euler$coefficients[1]) * x_line^order_euler
+y_implicit <- exp(fit_implicit$coefficients[1]) * x_line^order_implicit
+y_trap <- exp(fit_trap$coefficients[1]) * x_line^order_trap
+
+# Vérifier et clipper les valeurs pour éviter les artefacts
+ylim_trend_min <- min(ylim_min, min(y_euler, y_implicit, y_trap, na.rm=TRUE))
+ylim_trend_max <- max(ylim_max, max(y_euler, y_implicit, y_trap, na.rm=TRUE))
+
+lines(x_line, pmax(pmin(y_euler, ylim_trend_max), ylim_trend_min), col = "red", lwd = 2, lty = 2)
+lines(x_line, pmax(pmin(y_implicit, ylim_trend_max), ylim_trend_min), col = "green", lwd = 2, lty = 2)
+lines(x_line, pmax(pmin(y_trap, ylim_trend_max), ylim_trend_min), col = "purple", lwd = 2, lty = 2)
 
 legend("bottomright",
        c(sprintf("Euler explicite (ordre %.2f)", order_euler),
