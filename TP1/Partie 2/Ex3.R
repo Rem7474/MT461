@@ -175,12 +175,28 @@ for(i in 2:20) {
   x_pf[i] <- cos(x_pf[i-1])
 }
 
-png(file.path(output_dir, "Ex3_5_Aitken.png"))
+# Appliquer l'accélération d'Aitken
+x_aitken <- aitken_acceleration(x_pf)
+
+png(file.path(output_dir, "Ex3_5_Aitken.png"), width = 900, height = 600)
 par(mfrow=c(1,2))
-plot(1:20, log10(abs(x_pf - x_star)), type="b", col="red",
-  main="Point fixe vs Aitken", xlab="Itération", ylab="log10(erreur)")
-lines(1:18, log10(abs(x_aitken - x_star)), type="b", col="blue")
-legend("topright", c("Point fixe", "Aitken"), col=c("red", "blue"), lty=1)
+
+# Graphique 1: Erreur en échelle log
+plot(1:20, log10(abs(x_pf - x_star)), type="b", col="red", pch = 16, lwd = 2,
+     main="Point fixe vs Aitken", xlab="Itération", ylab="log10(erreur)")
+lines(1:18, log10(abs(x_aitken - x_star)), type="b", col="blue", pch = 17, lwd = 2)
+legend("topright", c("Point fixe", "Aitken"), col=c("red", "blue"), lty=1, lwd = 2, pch = c(16, 17))
+grid()
+
+# Graphique 2: Comparaison des valeurs
+plot(1:20, x_pf, type="b", col="red", pch = 16, lwd = 2,
+     main="Valeurs approchées de x*", xlab="Itération", ylab="x_n")
+lines(1:18, x_aitken, type="b", col="blue", pch = 17, lwd = 2)
+abline(h = x_star, col="green", lty=2, lwd = 2)
+legend("right", c("Point fixe", "Aitken", "Valeur exacte"), 
+       col=c("red", "blue", "green"), lty=c(1,1,2), lwd = 2, pch = c(16, 17, NA))
+grid()
+
 dev.off()
 
 # Pour x = 10*cos(x) - généralement diverge, Aitken ne peut pas aider
