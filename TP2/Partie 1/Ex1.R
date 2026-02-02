@@ -73,7 +73,7 @@ rk4 <- function(f, x0, xf, y0, h) {
 # ============================================================================
 # CONFIGURATION: Dossier de sortie des images
 # ============================================================================
-output_dir <- "./MT461/TP/TP2/Part 1/output"
+output_dir <- "TP2/Partie 1/output"
 dir.create(output_dir, showWarnings = FALSE)
 cat("Les images seront sauvegardées dans:", file.path(getwd(), output_dir), "\n\n")
 
@@ -155,13 +155,13 @@ for (i in seq_along(h_values)) {
 
 # Graphique 4: Erreur en échelle logarithmique
 png(file.path(output_dir, "Ex1_Erreur_Euler.png"), width = 800, height = 600)
-plot(h_values, errors_euler, type = "bo", log = "xy",
+plot(h_values, errors_euler, type = "b", pch = 1, log = "xy",
      main = "Erreur globale en fonction du pas h (Euler, y0 = 1)",
      xlab = "Pas h", ylab = "Erreur globale", lwd = 2, cex = 1.2)
 # Estimation de l'ordre (pente)
 fit <- lm(log(errors_euler) ~ log(h_values))
 abline(fit, col = "red", lwd = 2, lty = 2)
-order_euler <- -fit$coefficients[2]
+order_euler <- fit$coefficients[2]
 legend("bottomright", paste("Ordre estimé:", round(order_euler, 2)), 
        bty = "o", bg = "white", cex = 1)
 grid()
@@ -246,9 +246,9 @@ fit_euler <- lm(log(errors_euler) ~ log(h_values))
 fit_midpoint <- lm(log(errors_midpoint) ~ log(h_values))
 fit_rk4 <- lm(log(errors_rk4) ~ log(h_values))
 
-order_euler <- -fit_euler$coefficients[2]
-order_midpoint <- -fit_midpoint$coefficients[2]
-order_rk4 <- -fit_rk4$coefficients[2]
+order_euler <- fit_euler$coefficients[2]
+order_midpoint <- fit_midpoint$coefficients[2]
+order_rk4 <- fit_rk4$coefficients[2]
 
 cat(sprintf("Ordre de Euler:       %.3f (théorique: 1)\n", order_euler))
 cat(sprintf("Ordre du point milieu: %.3f (théorique: 2)\n", order_midpoint))
@@ -256,10 +256,14 @@ cat(sprintf("Ordre de RK4:         %.3f (théorique: 4)\n", order_rk4))
 
 # Graphique 7: Convergence de tous les ordres
 png(file.path(output_dir, "Ex1_Ordres_convergence.png"), width = 800, height = 600)
-plot(h_values, errors_euler, type = "bo", log = "xy",
+# Calculer les limites pour inclure tous les erreurs
+ylim_min <- min(errors_euler, errors_midpoint, errors_rk4)
+ylim_max <- max(errors_euler, errors_midpoint, errors_rk4)
+plot(h_values, errors_euler, type = "b", pch = 1, log = "xy",
      main = "Ordre de convergence des trois méthodes",
      xlab = "Pas h", ylab = "Erreur globale max", 
-     lwd = 2, cex = 1.2, col = "red")
+     lwd = 2, cex = 1.2, col = "red",
+     ylim = c(ylim_min, ylim_max))
 points(h_values, errors_midpoint, type = "b", col = "green", lwd = 2, cex = 1.2, pch = 2)
 points(h_values, errors_rk4, type = "b", col = "purple", lwd = 2, cex = 1.2, pch = 3)
 

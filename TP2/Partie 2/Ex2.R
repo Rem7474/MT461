@@ -296,9 +296,9 @@ fit_euler <- lm(log(errors_euler) ~ log(h_values))
 fit_implicit <- lm(log(errors_implicit) ~ log(h_values))
 fit_trap <- lm(log(errors_trap) ~ log(h_values))
 
-order_euler <- -fit_euler$coefficients[2]
-order_implicit <- -fit_implicit$coefficients[2]
-order_trap <- -fit_trap$coefficients[2]
+order_euler <- fit_euler$coefficients[2]
+order_implicit <- fit_implicit$coefficients[2]
+order_trap <- fit_trap$coefficients[2]
 
 cat(sprintf("Ordre d'Euler explicite:      %.3f (théorique: 1)\n", order_euler))
 cat(sprintf("Ordre d'Euler implicite:      %.3f (théorique: 1)\n", order_implicit))
