@@ -1,6 +1,14 @@
 # Exercice 1
 
 # ============================================================================
+# CONFIGURATION: Dossier de sortie des images
+# ============================================================================
+output_dir <- "TP1/Partie 1/output"
+if(!dir.exists(output_dir)) {
+  dir.create(output_dir, recursive = TRUE)
+}
+
+# ============================================================================
 # Calcul de Pi avec la méthode d'Archimède
 # ============================================================================
 y <- 2 # valeur initiale
@@ -13,7 +21,13 @@ for (k in 1:n) {
   if (k == 20) cat("y_20 =", y, "\n")
   if (k == 100) cat("y_100 =", y, "\n")
 }
-plot(1:n,z, col="blue", pch=3,main="Evolution de y_k en fonction de n")
+
+png(file.path(output_dir, "Ex1_1_Evolution_y_k.png"), width = 900, height = 600)
+plot(1:n, z, col="blue", pch=3, lwd = 2,
+     main="Evolution de y_k en fonction de n",
+     xlab="k", ylab="y_k")
+grid()
+dev.off()
 
 
 # ============================================================================
@@ -30,7 +44,12 @@ for (k in 1:100) {
   y_vals[k] <- y
 }
 
+png(file.path(output_dir, "Ex1_2_Evolution_identite_remarquable.png"), width = 900, height = 600)
 plot(1:100, y_vals, type = "l", col = "blue", lwd = 2,
      xlab = "k", ylab = "y_k (corrigé)", main = "y_k stable avec identité remarquable")
-abline(h = pi, col = "red", lty = 2)
+abline(h = pi, col = "red", lty = 2, lwd = 2)
+legend("bottomright", c("y_k calculé", "π exact"), col = c("blue", "red"), lwd = 2, lty = c(1, 2))
 grid()
+dev.off()
+
+cat("Les graphiques ont été sauvegardés dans:", file.path(getwd(), output_dir), "\n")
