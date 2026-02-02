@@ -250,7 +250,10 @@ dev.off()
 # ============================================================================
 # ANALYSE DE CONVERGENCE - Ordre de la méthode des trapèzes
 # ============================================================================
-cat("\n=== ANALYSE DE CONVERGENCE - Ordre des méthodes ===\n\n")
+cat("\n=== ANALYSE DE CONVERGENCE - Ordre des méthodes (intervalle x ∈ [0, 3]) ===\n\n")
+
+# Utiliser un intervalle d'intégration réduit pour le calcul d'ordre
+xf_order <- 2
 
 h_values <- 10^seq(-3, -0.5, by = 0.1)  # h de 10^-3 à ~0.3
 errors_euler <- numeric(length(h_values))
@@ -259,36 +262,26 @@ errors_trap <- numeric(length(h_values))
 
 # Solution de référence avec un très petit h
 h_ref <- 0.001
-sol_ref <- trapeze(lambda, x0, xf, y0, h_ref)
+sol_ref <- trapeze(lambda, x0, xf_order, y0, h_ref)
 y_exact_ref <- y_exacte(sol_ref$x, lambda)
 
 for (i in seq_along(h_values)) {
   h <- h_values[i]
   
   # Euler explicite
-  sol <- euler_explicite(lambda, x0, xf, y0, h)
-  # Interpoler pour comparaison
-  y_approx <- rep(NA, length(sol_ref$x))
-  indices <- match(round(sol_ref$x / h) * h, sol$x, nomatch = NA)
-  valid_idx <- !is.na(indices)
-  y_approx[valid_idx] <- sol$y[indices[valid_idx]]
-  errors_euler[i] <- max(abs(y_approx[valid_idx] - y_exact_ref[valid_idx]), na.rm = TRUE)
+  sol <- euler_explicite(lambda, x0, xf_order, y0, h)
+  y_exact <- y_exacte(sol$x, lambda)
+  errors_euler[i] <- max(abs(sol$y - y_exact))
   
   # Euler implicite
-  sol <- euler_implicite(lambda, x0, xf, y0, h)
-  y_approx <- rep(NA, length(sol_ref$x))
-  indices <- match(round(sol_ref$x / h) * h, sol$x, nomatch = NA)
-  valid_idx <- !is.na(indices)
-  y_approx[valid_idx] <- sol$y[indices[valid_idx]]
-  errors_implicit[i] <- max(abs(y_approx[valid_idx] - y_exact_ref[valid_idx]), na.rm = TRUE)
+  sol <- euler_implicite(lambda, x0, xf_order, y0, h)
+  y_exact <- y_exacte(sol$x, lambda)
+  errors_implicit[i] <- max(abs(sol$y - y_exact))
   
   # Trapèzes
-  sol <- trapeze(lambda, x0, xf, y0, h)
-  y_approx <- rep(NA, length(sol_ref$x))
-  indices <- match(round(sol_ref$x / h) * h, sol$x, nomatch = NA)
-  valid_idx <- !is.na(indices)
-  y_approx[valid_idx] <- sol$y[indices[valid_idx]]
-  errors_trap[i] <- max(abs(y_approx[valid_idx] - y_exact_ref[valid_idx]), na.rm = TRUE)
+  sol <- trapeze(lambda, x0, xf_order, y0, h)
+  y_exact <- y_exacte(sol$x, lambda)
+  errors_trap[i] <- max(abs(sol$y - y_exact))
 }
 
 # Calcul des ordres
