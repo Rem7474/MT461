@@ -60,7 +60,7 @@ point_fixe_convergence <- function(x0, max_iter = 30) {
 result_pf <- point_fixe_convergence(1)
 
 # Graphiques
-png(file.path(output_dir, "Q2_PointFixe.png"))
+png(file.path(output_dir, "Ex3_2_PointFixe.png"))
 par(mfrow=c(2,1))
 plot(1:length(result_pf$errors), log10(result_pf$errors), type="b",
      main="Erreur (échelle log) - Point fixe", xlab="Itération", ylab="log10(erreur)")
@@ -105,7 +105,7 @@ newton_convergence <- function(x0, max_iter = 10) {
 
 # Test Newton
 result_newton <- newton_convergence(1)
-png(file.path(output_dir, "Q3_Newton.png"))
+png(file.path(output_dir, "Ex3_3_Newton.png"))
 par(mfrow=c(2,1))
 plot(1:length(result_newton$errors), log10(result_newton$errors), type="b",
   main="Erreur (échelle log) - Newton", xlab="Itération", ylab="log10(erreur)")
@@ -133,7 +133,7 @@ point_fixe_10cos <- function(x0, max_iter = 20) {
   
   return(x)
 }
-png(file.path(output_dir, "Q4_10cos.png"))
+png(file.path(output_dir, "Ex3_4_10cos.png"))
 x0_values <- c(0, 1, 2, 5)
 par(mfrow=c(2,2))
 
@@ -175,7 +175,7 @@ for(i in 2:20) {
   x_pf[i] <- cos(x_pf[i-1])
 }
 
-png(file.path(output_dir, "Q5_Aitken.png"))
+png(file.path(output_dir, "Ex3_5_Aitken.png"))
 par(mfrow=c(1,2))
 plot(1:20, log10(abs(x_pf - x_star)), type="b", col="red",
   main="Point fixe vs Aitken", xlab="Itération", ylab="log10(erreur)")
@@ -217,7 +217,7 @@ steffensen <- function(f, x0, max_iter = 10, tol = 1e-12) {
 f_cos <- function(x) cos(x)
 result_steff <- steffensen(f_cos, 1)
 
-png(file.path(output_dir, "Q6_Methods_Comparison.png"))
+png(file.path(output_dir, "Ex3_6_Methods_Comparison.png"))
 par(mfrow=c(1,1))
 plot(1:length(result_newton$errors), log10(result_newton$errors), 
      type="b", col="green", main="Comparaison des méthodes",

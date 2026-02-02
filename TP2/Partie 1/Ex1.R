@@ -97,7 +97,7 @@ sol_euler_h001 <- euler(f, x0, xf, y0, h2)
 y_exact_h001 <- y_exacte(sol_euler_h001$x, y0)
 
 # Graphique 1: Euler h=0.1 vs solution exacte
-png(file.path(output_dir, "Ex1_Euler_h01.png"), width = 800, height = 600)
+png(file.path(output_dir, "Ex1_1_Euler_h01.png"), width = 800, height = 600)
 plot(sol_euler_h01$x, sol_euler_h01$y, type = "b", col = "red", 
      main = "Méthode d'Euler: h = 0.1 vs Solution exacte (y0 = 1)",
      xlab = "x", ylab = "y", lwd = 2, pch = 16)
@@ -108,7 +108,7 @@ grid()
 dev.off()
 
 # Graphique 2: Comparaison h=0.1 et h=0.01
-png(file.path(output_dir, "Ex1_Euler_h01_vs_h001.png"), width = 800, height = 600)
+png(file.path(output_dir, "Ex1_1_Euler_h01_vs_h001.png"), width = 800, height = 600)
 plot(sol_euler_h01$x, sol_euler_h01$y, type = "b", col = "red", 
      main = "Influence du pas h: Euler avec y0 = 1",
      xlab = "x", ylab = "y", lwd = 2, pch = 16)
@@ -120,7 +120,7 @@ grid()
 dev.off()
 
 # Graphique 3: Variation de y0 de 0 à 2
-png(file.path(output_dir, "Ex1_Euler_y0_variation.png"), width = 800, height = 600)
+png(file.path(output_dir, "Ex1_1_Euler_y0_variation.png"), width = 800, height = 600)
 y0_values <- seq(0.1, 2, by = 0.2)
 plot(NULL, xlim = c(0, 5), ylim = c(0, 2.2),
      main = "Solutions avec variation de y0 de 0 à 2 (Euler, h=0.1)",
@@ -154,7 +154,7 @@ for (i in seq_along(h_values)) {
 }
 
 # Graphique 4: Erreur en échelle logarithmique
-png(file.path(output_dir, "Ex1_Erreur_Euler.png"), width = 800, height = 600)
+png(file.path(output_dir, "Ex1_2_Erreur_Euler.png"), width = 800, height = 600)
 plot(h_values, errors_euler, type = "b", pch = 1, log = "xy",
      main = "Erreur globale en fonction du pas h (Euler, y0 = 1)",
      xlab = "Pas h", ylab = "Erreur globale", lwd = 2, cex = 1.2)
@@ -182,7 +182,7 @@ sol_rk4 <- rk4(f, x0, xf, y0, h)
 y_exact <- y_exacte(sol_euler$x, y0)
 
 # Graphique 5: Comparaison des trois méthodes
-png(file.path(output_dir, "Ex1_Comparaison_methodes.png"), width = 800, height = 600)
+png(file.path(output_dir, "Ex1_3_Comparaison_methodes.png"), width = 800, height = 600)
 plot(sol_euler$x, sol_euler$y, type = "l", col = "red", 
      main = "Comparaison des trois méthodes (h = 0.01, y0 = 1)",
      xlab = "x", ylab = "y", lwd = 2, lty = 1)
@@ -196,7 +196,7 @@ grid()
 dev.off()
 
 # Graphique 6: Erreurs des trois méthodes
-png(file.path(output_dir, "Ex1_Erreurs_methodes.png"), width = 800, height = 600)
+png(file.path(output_dir, "Ex1_3_Erreurs_methodes.png"), width = 800, height = 600)
 err_euler <- abs(sol_euler$y - y_exact)
 err_midpoint <- abs(sol_midpoint$y - y_exact)
 err_rk4 <- abs(sol_rk4$y - y_exact)
@@ -269,7 +269,7 @@ order_rk4_reduced <- fit_rk4_reduced$coefficients[2]
 cat(sprintf("Ordre de RK4 (intervalle 10^-3 à 10^-2): %.3f (théorique: 4)\n", order_rk4_reduced))
 
 # Graphique 8: RK4 seul sur intervalle réduit
-png(file.path(output_dir, "Ex1_RK4_ordre_reduit.png"), width = 800, height = 600)
+png(file.path(output_dir, "Ex1_4_RK4_ordre_reduit.png"), width = 800, height = 600)
 plot(h_values_rk4_reduced, errors_rk4_reduced, type = "b", pch = 3, log = "xy",
      main = "Ordre de convergence RK4 (intervalle réduit: 10^-3 à 10^-2)",
      xlab = "Pas h", ylab = "Erreur globale max", 
@@ -288,7 +288,7 @@ grid()
 dev.off()
 
 # Graphique 7: Convergence de tous les ordres
-png(file.path(output_dir, "Ex1_Ordres_convergence.png"), width = 800, height = 600)
+png(file.path(output_dir, "Ex1_4_Ordres_convergence.png"), width = 800, height = 600)
 # Calculer les limites pour inclure tous les erreurs
 ylim_min <- min(errors_euler, errors_midpoint, errors_rk4)
 ylim_max <- max(errors_euler, errors_midpoint, errors_rk4)
