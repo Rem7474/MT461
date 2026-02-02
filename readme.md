@@ -82,7 +82,7 @@ Chaque partie dispose d'un dossier `output/` pour stocker :
 
 ## 👤 Auteur
 
-Créé par : **[Votre Nom]**  
+Créé par : **Rem7474, elzoi12 et AntoinePEREDERII**  
 Date : Février 2026  
 Cours : **MT461**
 
