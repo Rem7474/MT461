@@ -155,14 +155,20 @@ for (i in seq_along(h_values)) {
 
 # Graphique 4: Erreur en échelle logarithmique
 png(file.path(output_dir, "Ex1_2_Erreur_Euler.png"), width = 800, height = 600)
-plot(h_values, errors_euler, type = "b", pch = 1, log = "xy",
+plot(h_values, errors_euler, type = "b", pch = 19, col = "black", log = "xy",
      main = "Erreur globale en fonction du pas h (Euler, y0 = 1)",
      xlab = "Pas h", ylab = "Erreur globale", lwd = 2, cex = 1.2)
 # Estimation de l'ordre (pente)
 fit <- lm(log(errors_euler) ~ log(h_values))
-abline(fit, col = "red", lwd = 2, lty = 2)
+abline(fit, col = "red", lwd = 2.5, lty = 2)
 order_euler <- fit$coefficients[2]
-legend("bottomright", paste("Ordre estimé:", round(order_euler, 2)), 
+legend("bottomright", 
+       legend = c("Erreur mesuree", 
+                  sprintf("Regression (ordre = %.2f)", order_euler)),
+       col = c("black", "red"), 
+       lty = c(1, 2),
+       lwd = c(2, 2.5),
+       pch = c(19, NA),
        bty = "o", bg = "white", cex = 1)
 grid()
 dev.off()
